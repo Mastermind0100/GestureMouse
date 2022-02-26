@@ -1,7 +1,9 @@
+from pickle import FRAME
 import cv2
 import math
 import pyautogui as pag
 import handdetector as hdr
+import time
 
 pag.FAILSAFE = False
 
@@ -22,10 +24,13 @@ if __name__ == '__main__':
         dist = math.sqrt(pow((handLandmarks[8][1]-handLandmarks[4][1]),2)+pow((handLandmarks[8][2]-handLandmarks[4][2]),2))
         cv2.circle(frame, (x_crdnt, y_crdnt), 5, (0,255,255), -1)
         cv2.line(frame, (handLandmarks[8][1],handLandmarks[8][2]), (handLandmarks[4][1],handLandmarks[4][2]), (255, 0, 255), 3)
-        cv2.imshow('frame', frame)       # You can comment this line out to not show your webcam output
         pag.moveTo(int(x_crdnt*multiplier_x), int(y_crdnt*multiplier_y), duration = 0.01)
+        
         if dist<20:
-            pag.click(x_crdnt,y_crdnt)
+            pag.click(x_crdnt*multiplier_x, y_crdnt*multiplier_y)          
+
+        cv2.imshow('frame', frame)       # You can comment this line out to not show your webcam output
+        
         if cv2.waitKey(1) & 0xff == 27:
             break
     
